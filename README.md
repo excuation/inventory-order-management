@@ -1,121 +1,411 @@
 # Inventory & Order Management System
 
-A complete full-stack Inventory & Order Management System built with React, FastAPI, PostgreSQL, SQLAlchemy, Alembic, Docker, and Docker Compose.
+A complete full-stack Inventory & Order Management System built using React, FastAPI, PostgreSQL, SQLAlchemy, Alembic, Docker, and Docker Compose.
+
+## Live Deployment
+
+### Frontend
+
+https://inventory-order-management-gules.vercel.app
+
+### Backend API
+
+https://inventory-order-management-1-eeym.onrender.com
+
+### API Documentation
+
+https://inventory-order-management-1-eeym.onrender.com/docs
+
+---
 
 ## Features
 
-- Product CRUD with unique SKU validation
-- Customer CRUD with unique email validation
-- Order creation, listing, detail retrieval, and deletion
-- Automatic stock deduction when orders are created
-- Stock restoration when orders are deleted
-- Automatic order total calculation
-- Insufficient inventory errors with proper HTTP status codes
-- Dashboard metrics and recent orders
-- Responsive React UI with success and error messages
-- Environment-based configuration
-- Alembic database migrations
-- Backend API tests and frontend production build
+### Product Management
+
+* Create Product
+* View Products
+* Update Product
+* Delete Product
+* Unique SKU validation
+* Stock quantity validation
+
+### Customer Management
+
+* Create Customer
+* View Customers
+* Update Customer
+* Delete Customer
+* Unique Email validation
+
+### Order Management
+
+* Create Order
+* View Orders
+* View Order Details
+* Delete Order
+* Automatic Order Total Calculation
+
+### Inventory Management
+
+* Automatic stock deduction when an order is created
+* Automatic stock restoration when an order is deleted
+* Inventory validation before order creation
+* Low stock monitoring
+
+### Dashboard
+
+* Total Products
+* Total Customers
+* Total Orders
+* Inventory Value
+* Recent Orders
+* Low Stock Products
+
+### Additional Features
+
+* Responsive UI
+* Form Validation
+* Success/Error Notifications
+* Environment-based Configuration
+* Alembic Database Migrations
+* Dockerized Deployment
+* API Documentation with Swagger UI
+
+---
+
+## Business Rules Implemented
+
+* Product SKU must be unique
+* Customer Email must be unique
+* Product quantity cannot be negative
+* Orders cannot be created if stock is insufficient
+* Stock is automatically reduced after order creation
+* Stock is automatically restored after order deletion
+* Order totals are calculated automatically by the backend
+* Request validation implemented
+* Proper HTTP status codes implemented
+* Error handling implemented throughout the application
+
+---
+
+## Tech Stack
+
+### Frontend
+
+* React
+* TypeScript
+* Vite
+* Axios
+
+### Backend
+
+* FastAPI
+* SQLAlchemy
+* Alembic
+* Pydantic
+
+### Database
+
+* PostgreSQL
+
+### DevOps
+
+* Docker
+* Docker Compose
+
+### Deployment
+
+* Render
+* Vercel
+
+### Version Control
+
+* Git
+* GitHub
+
+---
 
 ## Project Structure
 
 ```text
 backend/
-  alembic/
-  app/
-    api/
-    core/
-    db/
-    models/
-    schemas/
-    services/
-  tests/
+├── alembic/
+├── app/
+│   ├── api/
+│   ├── core/
+│   ├── db/
+│   ├── models/
+│   ├── schemas/
+│   └── services/
+├── tests/
+├── requirements.txt
+└── Dockerfile
+
 frontend/
-  src/
+├── src/
+├── public/
+├── package.json
+├── Dockerfile
+└── vite.config.ts
+
 database/
 docs/
+
 docker-compose.yml
 .env.example
+README.md
 ```
+
+---
 
 ## Local Development With Docker
 
-Create your environment file:
+### Create Environment File
 
 ```bash
 cp .env.example .env
 ```
 
-Start the application:
+### Build and Start Containers
 
 ```bash
 docker compose up --build
 ```
 
-Service URLs:
+### Service URLs
 
-- Frontend: <http://localhost:3000>
-- Backend API: <http://localhost:8000>
-- API docs: <http://localhost:8000/docs>
-- Health check: <http://localhost:8000/health>
-- PostgreSQL: `localhost:5432`
+Frontend:
 
-The backend container runs `alembic upgrade head` before starting the API.
+```text
+http://localhost:3000
+```
+
+Backend API:
+
+```text
+http://localhost:8000
+```
+
+Swagger Documentation:
+
+```text
+http://localhost:8000/docs
+```
+
+Health Check:
+
+```text
+http://localhost:8000/health
+```
+
+PostgreSQL:
+
+```text
+localhost:5432
+```
+
+The backend container automatically runs:
+
+```bash
+alembic upgrade head
+```
+
+before starting the API server.
+
+---
 
 ## Backend Commands
 
 ```bash
 cd backend
-python -m pip install -r requirements.txt
+
+pip install -r requirements.txt
+
 python -m pytest
+
 python -m ruff check app tests
+
 alembic upgrade head
+
 uvicorn app.main:app --reload
 ```
+
+---
 
 ## Frontend Commands
 
 ```bash
 cd frontend
+
 npm install
+
 npm run build
+
 npm run lint
+
 npm run dev
 ```
 
-## API Summary
+---
 
-- `GET /api/v1/products`
-- `POST /api/v1/products`
-- `GET /api/v1/products/{product_id}`
-- `PUT /api/v1/products/{product_id}`
-- `DELETE /api/v1/products/{product_id}`
-- `GET /api/v1/customers`
-- `POST /api/v1/customers`
-- `GET /api/v1/customers/{customer_id}`
-- `PUT /api/v1/customers/{customer_id}`
-- `DELETE /api/v1/customers/{customer_id}`
-- `GET /api/v1/orders`
-- `POST /api/v1/orders`
-- `GET /api/v1/orders/{order_id}`
-- `DELETE /api/v1/orders/{order_id}`
-- `GET /api/v1/dashboard`
+## API Endpoints
+
+### Products
+
+```http
+GET    /api/v1/products
+POST   /api/v1/products
+GET    /api/v1/products/{product_id}
+PUT    /api/v1/products/{product_id}
+DELETE /api/v1/products/{product_id}
+```
+
+### Customers
+
+```http
+GET    /api/v1/customers
+POST   /api/v1/customers
+GET    /api/v1/customers/{customer_id}
+PUT    /api/v1/customers/{customer_id}
+DELETE /api/v1/customers/{customer_id}
+```
+
+### Orders
+
+```http
+GET    /api/v1/orders
+POST   /api/v1/orders
+GET    /api/v1/orders/{order_id}
+DELETE /api/v1/orders/{order_id}
+```
+
+### Dashboard
+
+```http
+GET /api/v1/dashboard
+```
+
+---
+
+## Docker Setup
+
+### Backend Dockerfile
+
+Included
+
+### Frontend Dockerfile
+
+Included
+
+### Docker Compose
+
+Included
+
+### Environment Variables
+
+Included
+
+### PostgreSQL Persistence
+
+Implemented using Docker Volumes
+
+---
+
+## Testing
+
+### Backend Tests
+
+```bash
+python -m pytest
+```
+
+### Linting
+
+```bash
+python -m ruff check app tests
+```
+
+### Frontend Build Verification
+
+```bash
+npm run build
+```
+
+### Docker Compose Validation
+
+```bash
+docker compose config
+```
+
+---
 
 ## Deployment Checklist
 
-1. Set secure production values in `.env`, especially `SECRET_KEY` and database credentials.
-2. Restrict `BACKEND_CORS_ORIGINS` to the deployed frontend origin.
-3. Use a managed PostgreSQL instance or a persistent Docker volume.
-4. Run `alembic upgrade head` during release.
-5. Build the frontend with `npm run build` and serve the static assets behind a production web server or platform.
-6. Put the FastAPI service behind HTTPS and a reverse proxy or cloud load balancer.
-7. Enable database backups and application log collection.
+* Configure secure production environment variables
+* Configure PostgreSQL database credentials
+* Configure BACKEND_CORS_ORIGINS
+* Configure frontend API URL
+* Run database migrations
+* Enable HTTPS
+* Configure backups
+* Configure logging
 
-## Verified Locally
+---
 
-- Backend tests: `python -m pytest`
-- Backend lint: `python -m ruff check app tests`
-- Frontend build: `npm run build`
-- Frontend lint: `npm run lint`
-- Docker Compose config: `docker compose config`
+## Submission Deliverables
 
+### GitHub Repository
+
+https://github.com/excuation/inventory-order-management
+
+### Live Frontend
+
+https://inventory-order-management-gules.vercel.app
+
+### Live Backend
+
+https://inventory-order-management-1-eeym.onrender.com
+
+### API Documentation
+
+https://inventory-order-management-1-eeym.onrender.com/docs
+
+---
+
+## Verification Completed
+
+### Backend
+
+```bash
+python -m pytest
+```
+
+Passed
+
+```bash
+python -m ruff check app tests
+```
+
+Passed
+
+### Frontend
+
+```bash
+npm run build
+```
+
+Passed
+
+```bash
+npm run lint
+```
+
+Passed
+
+### Docker
+
+```bash
+docker compose config
+```
+
+Passed
